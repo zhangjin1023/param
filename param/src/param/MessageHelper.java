@@ -3,8 +3,8 @@ package param;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
-public class MsgHandler {
-	public static String toFiexdLengthMsg(Object obj, Class<?> clazz) throws Exception {
+public class MessageHelper {
+	public static String createFiexdLengthMsg(Object obj, Class<?> clazz) throws Exception {
 		Field[] fields = clazz.getDeclaredFields();
 		StringBuffer sb = new StringBuffer();
 		for (Field field : fields) {
@@ -14,7 +14,7 @@ public class MsgHandler {
 				field.setAccessible(true);
 				String newValue = padRightWithSpace((String) field.get(obj), len);
 				field.set(obj, newValue);
-			} else if (field.isAnnotationPresent(PadLeftWithZero.class)) {// 如果是右对齐，左边补0格注解
+			} else if (field.isAnnotationPresent(PadLeftWithZero.class)) {// 如果是右对齐，左边补0注解
 				PadLeftWithZero padLeftWithZero = field.getAnnotation(PadLeftWithZero.class);
 				int len = padLeftWithZero.len();
 				field.setAccessible(true);
@@ -25,7 +25,9 @@ public class MsgHandler {
 			String value = (String) field.get(obj);
 			sb.append(value);
 		}
-		return sb.toString();
+		String msgBody = sb.toString();
+		String msgHead = padLeftWithZero(String.valueOf(msgBody.getBytes("GBK").length), 4);
+		return msgHead + msgBody;
 	}
 
 	public static String padRightWithSpace(String orgStr, int len) {
@@ -76,7 +78,9 @@ public class MsgHandler {
 		param.setProcCode("22");
 		param.setMerNo("00000123");
 		param.setAmt("100");
-		System.out.println(toFiexdLengthMsg(param, param.getClass()));
+		param.setPayNo("123456");
+		param.setAcctNM("张三");
+		System.out.println(createFiexdLengthMsg(param, param.getClass()));
 	}
 
 }

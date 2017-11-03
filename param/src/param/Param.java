@@ -1,6 +1,8 @@
 package param;
 
 public class Param {
+	@PadRightWithSpace(len = 10)
+	private String acctNM;
 	@PadRightWithSpace(len = 4)
 	private String transCode;
 	@PadRightWithSpace(len = 4)
@@ -11,6 +13,10 @@ public class Param {
 	private String amt;
 	@PadRightWithSpace(len = 19)
 	private String acctNo;
+	@PadRightWithSpace(len = 15)
+	private String payNo;
+	
+	
 
 	public String getTransCode() {
 		return transCode;
@@ -50,6 +56,22 @@ public class Param {
 
 	public void setAcctNo(String acctNo) {
 		this.acctNo = acctNo;
+	}
+
+	public String getPayNo() {
+		return payNo;
+	}
+
+	public void setPayNo(String payNo) {
+		this.payNo = payNo;
+	}
+
+	public String getAcctNM() {
+		return acctNM;
+	}
+
+	public void setAcctNM(String acctNM) {
+		this.acctNM = acctNM;
 	}
 
 }
